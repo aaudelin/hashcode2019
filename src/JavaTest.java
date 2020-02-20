@@ -39,7 +39,8 @@ public class JavaTest {
     private void removeT(List<Librairie> librairies) {
         librairies.forEach(t -> {
             var books = t.getBooks();
-            books.removeAll(alreadyTreated);
+            List<Book> collect = books.stream().filter(e -> !alreadyTreated.contains(e)).collect(Collectors.toList());
+            books.removeAll(collect);
         });
     }
     
@@ -64,7 +65,7 @@ public class JavaTest {
     public void decrementSignUp(Librairie librairie) {
         librairie.setSignupDays(librairie.getSignupDays() - 1);
         // SIgn up is over so token is reaffected for a new one
-        if(librairie.getSignupDays() == 0) {
+        if(librairie.getSignupDays() == -1) {
             isSigningUp = null;
         }
     }

@@ -3,14 +3,14 @@ import java.util.*
 
 fun main() {
 
-    writeFile(readFile("input/a_example.txt"))
+    writeFile(readFile("input/a_example.txt"), "output/a_example.txt")
 
 }
 
-fun writeFile(librairiesToWrite: List<Librairie>) {
+fun writeFile(librairiesToWrite: List<Librairie>, fileOuput: String) {
     // Ecrire
 
-    val fileA = File("output/a_example.txt")
+    val fileA = File(fileOuput)
 
     fileA.createNewFile()
     fileA.writeText("${librairiesToWrite.size}\n")
@@ -18,8 +18,9 @@ fun writeFile(librairiesToWrite: List<Librairie>) {
     librairiesToWrite.forEach {
         fileA.appendText("${it.id} ${it.books.size}\n")
         it.books.forEach {
-            fileA.appendText("${it.id}\n")
+            fileA.appendText("${it.id} ")
         }
+        fileA.appendText("\n")
     }
 }
 
