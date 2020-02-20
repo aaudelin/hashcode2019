@@ -2,6 +2,29 @@ import java.io.File
 import java.util.*
 
 fun main() {
+
+
+}
+
+fun writeFile() {
+    // Ecrire
+
+    var librairiesToWrite = listOf<Librairie>(Librairie(1, setOf(Book(3, 15)), 10, 25))
+
+    val fileA = File("output/a_example.txt")
+
+    fileA.createNewFile()
+    fileA.writeText("${librairiesToWrite.size}\n")
+
+    librairiesToWrite.forEach {
+        fileA.appendText("${it.id} ${it.books.size}\n")
+        it.books.forEach {
+            fileA.appendText("${it.id}\n")
+        }
+    }
+}
+
+fun readFile() {
     val fileA = File("input/a_example.txt")
 
     var lines = Scanner(fileA)
@@ -14,15 +37,16 @@ fun main() {
         books.add(Book(index, score.toInt()))
     }
 
-
+    var index = 0
     while (lines.hasNextLine()) {
+
         var libDesc = lines.nextLine().split(" ")
         var booksLibs = mutableSetOf<Book>()
         lines.nextLine().split(" ").forEachIndexed { index, s ->
             booksLibs.add(books.find { it.id == s.toInt() }!!)
         }
 
-        libs.add(Librairie(booksLibs, libDesc[1].toInt(), libDesc[2].toInt()))
+        libs.add(Librairie(index, booksLibs, libDesc[1].toInt(), libDesc[2].toInt()))
+        index++
     }
-
 }
