@@ -1,5 +1,4 @@
 import java.io.File
-import java.nio.file.Files
 import java.util.*
 
 fun main() {
@@ -8,7 +7,7 @@ fun main() {
     var lines = Scanner(fileA)
 
     var descriptionHeader = lines.nextLine().split(" ")
-    var header = Header(descriptionHeader[0].toInt(), descriptionHeader[1].toInt(), descriptionHeader[3].toInt())
+    var header = Header(descriptionHeader[0].toInt(), descriptionHeader[1].toInt(), descriptionHeader[2].toInt())
     var books = mutableSetOf<Book>()
     var libs = mutableListOf<Librairie>()
     var scoresLivres = lines.nextLine().split(" ").forEachIndexed { index, score ->
@@ -26,5 +25,4 @@ fun main() {
         libs.add(Librairie(booksLibs, libDesc[1].toInt(), libDesc[2].toInt()))
     }
 
-    function(header, libs)
 }
