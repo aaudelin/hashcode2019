@@ -1,9 +1,22 @@
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Path
 import java.util.*
 
 fun main() {
 
-    writeFile(readFile("input/a_example.txt"), "output/a_example.txt")
+    var dir = File("input/")
+
+    dir.listFiles().forEach {
+        println("File ${it.name} debut")
+        writeFile(readFile("input/"+it.name), "output/"+it.name)
+        println("File ${it.name} fini")
+    }
+
+//    var name = "b_read_on.txt"
+//    var name = "a_example.txt"
+
+//    writeFile(readFile("input/"+name), "output/"+name)
 
 }
 
