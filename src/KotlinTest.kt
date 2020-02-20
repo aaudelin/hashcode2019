@@ -1,4 +1,5 @@
 import java.io.File
+import java.lang.Exception
 import java.nio.file.Files
 import java.nio.file.Path
 import java.util.*
@@ -8,10 +9,16 @@ fun main() {
     var dir = File("input/")
 
     dir.listFiles().forEach {
-        println("File ${it.name} debut")
-        writeFile(readFile("input/"+it.name), "output/"+it.name)
-        println("File ${it.name} fini")
+        try {
+            println("File ${it.name} debut")
+            writeFile(readFile("input/" + it.name), "output/" + it.name)
+            println("File ${it.name} fini")
+        }
+            catch (exception: Exception) {
+                exception.printStackTrace()
+            }
     }
+
 
 //    var name = "b_read_on.txt"
 //    var name = "a_example.txt"
@@ -52,14 +59,18 @@ fun readFile(name: String) : List<Librairie> {
 
     var index = 0
     while (lines.hasNextLine()) {
+        try {
+            var libDesc = lines.nextLine().split(" ")
+            var booksLibs = mutableSetOf<Book>()
+            lines.nextLine().split(" ").forEachIndexed { index, s ->
+                booksLibs.add(books.find { it.id == s.toInt() }!!)
+            }
 
-        var libDesc = lines.nextLine().split(" ")
-        var booksLibs = mutableSetOf<Book>()
-        lines.nextLine().split(" ").forEachIndexed { index, s ->
-            booksLibs.add(books.find { it.id == s.toInt() }!!)
+            libs.add(Librairie(index, booksLibs, libDesc[1].toInt(), libDesc[2].toInt()))
+        } catch (exception: Exception) {
+            exception.printStackTrace()
         }
 
-        libs.add(Librairie(index, booksLibs, libDesc[1].toInt(), libDesc[2].toInt()))
         index++
     }
     var javaTest = JavaTest()
