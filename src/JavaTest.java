@@ -18,13 +18,29 @@ public class JavaTest {
     
     
     
-    public void input(Header conf, List<Integer> scores, List<Library> librairies) {
+    public List<Librairie> input(Header conf, List<Librairie> librairies) {
     	
-    	var nbJour = new AtomicInteger();
-    	var librairieAsc = librairies.stream().sorted(Comparator.comparing(Library::getSignupTime)).collect(Collectors.toList());
-    	var librairieToTreat = new ArrayList<Library>(librairieAsc);
-        var alreadyTreated = new ArrayList<Book>();
+    	var nbJour = new AtomicInteger(1);
+    	var librairieAsc = librairies.stream().sorted(Comparator.comparing(Librairie::getSignupDays)).collect(Collectors.toList());
+    	var librairieToTreat = new ArrayList<Librairie>(librairieAsc);
 
+        // Parealle et retrait livres
+
+        while(nbJour.get() <= conf.getNbDaysTotal()) {
+            librairieToTreat.forEach(t -> treatLibrary(t));
+            nbJour.addAndGet(1);
+        }
+
+        removeT(librairieToTreat);
+        return librairieToTreat;
+    }
+
+
+    private void removeT(List<Librairie> librairies) {
+        librairies.forEach(t -> {
+            var books = t.getBooks();
+            books.removeAll(alreadyTreated);
+        });
     }
     
     
@@ -40,11 +56,7 @@ public class JavaTest {
         }
         else {
             int nbBook = librairie.getBooksByDay();
-            var books = getBooksToTreat(librairie.getBooks());
-            // Scan en parallele
-            for(int i = 0 ; i < librairie.getBooksByDay(); i++){
-
-            }
+            var books = getBooksToTreat(librairie);
         }
     }
 
@@ -57,9 +69,10 @@ public class JavaTest {
         }
     }
 
-    public List<Book> getBooksToTreat(Set<Book> books) {
+    public List<Book> getBooksToTreat(Librairie librairie) {
+        Set<Book> books = librairie.getBooks();
         // Regarde dans la liste des livres déjà traité
-        var toTreat = books.stream().filter(t-> !alreadyTreated.contains(t)).collect(Collectors.toList());
+        var toTreat = books.stream().filter(t-> !alreadyTreated.contains(t)).limit(librairie.getBooksByDay()).collect(Collectors.toList());
         alreadyTreated.addAll(toTreat);
         return toTreat;
     }

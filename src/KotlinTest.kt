@@ -3,13 +3,12 @@ import java.util.*
 
 fun main() {
 
+    writeFile(readFile("input/a_example.txt"))
 
 }
 
-fun writeFile() {
+fun writeFile(librairiesToWrite: List<Librairie>) {
     // Ecrire
-
-    var librairiesToWrite = listOf<Librairie>(Librairie(1, setOf(Book(3, 15)), 10, 25))
 
     val fileA = File("output/a_example.txt")
 
@@ -24,8 +23,8 @@ fun writeFile() {
     }
 }
 
-fun readFile() {
-    val fileA = File("input/a_example.txt")
+fun readFile(name: String) : List<Librairie> {
+    val fileA = File(name)
 
     var lines = Scanner(fileA)
 
@@ -49,4 +48,6 @@ fun readFile() {
         libs.add(Librairie(index, booksLibs, libDesc[1].toInt(), libDesc[2].toInt()))
         index++
     }
+    var javaTest = JavaTest()
+    return javaTest.input(header, libs)
 }
