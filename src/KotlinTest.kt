@@ -32,10 +32,12 @@ fun writeFile(librairiesToWrite: List<Librairie>, fileOuput: String) {
 
     val fileA = File(fileOuput)
 
-    fileA.createNewFile()
-    fileA.writeText("${librairiesToWrite.size}\n")
+    val finalLibs = librairiesToWrite.filter { it.books.isNotEmpty() }
 
-    librairiesToWrite.forEach {
+    fileA.createNewFile()
+    fileA.writeText("${finalLibs.size}\n")
+
+    finalLibs.forEach {
         fileA.appendText("${it.id} ${it.books.size}\n")
         it.books.forEach {
             fileA.appendText("${it.id} ")
